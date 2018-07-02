@@ -1,6 +1,6 @@
 // Returns if a pair of values are both true
 const learningRate = 0.1;
-const trainingSamples = 1;
+const trainingSamples = 100;
 const testSamples = 20;
 const generateBinaryValue = () => Math.floor(Math.random() * 2);
 const generateSample = () => ({ x: generateBinaryValue(),y : generateBinaryValue() });
