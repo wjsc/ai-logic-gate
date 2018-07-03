@@ -22,22 +22,22 @@ const networkCalculation = (inputs, weigths) => inputs.x * weigths.wx + inputs.y
 
 const train = (trainingSet, learningRate) => 
   trainingSet.reduce( (currentWeight, sample) => {
-    const trainedOutput = networkCalculation(sample, currentWeight);
+    const guessOutput = networkCalculation(sample, currentWeight);
     return {
-      wx: currentWeight.wx + sample.x * (sample.output - trainedOutput) * learningRate,
-      wy: currentWeight.wy + sample.y * (sample.output - trainedOutput) * learningRate
+      wx: currentWeight.wx + sample.x * (sample.output - guessOutput) * learningRate,
+      wy: currentWeight.wy + sample.y * (sample.output - guessOutput) * learningRate
     }
   }, generateRandomWeights());
 
 const outputAproximation = output => output > 0.5;
-const isTestCorrect = (expected, output) => output ? !!expected : !expected ;
+const isTestCorrect = (expected, output) => output === expected ;
 const logSampleResult = sample => console.log(`Inputs: ${!!sample.x} ^ ${!!sample.y} | Output: ${sample.output} | ${isTestCorrect(sample.expected, sample.output) ? 'OK' : 'ERROR'}`);
 
 const test = (testSet, trainedWeights) => 
   testSet.map(sample => 
               ({
                 ...sample, 
-                expected: deterministicCalculation(sample), 
+                expected: !!deterministicCalculation(sample), 
                 output: outputAproximation(networkCalculation(sample, trainedWeights))
               })
           )
